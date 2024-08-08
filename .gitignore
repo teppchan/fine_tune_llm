@@ -9,6 +9,5 @@ wheels/
 # venv
 .venv
 
-outputs/
-gemma_2b_ft/
+outputs*/
 hf_token.sh
