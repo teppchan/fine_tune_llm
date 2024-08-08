@@ -12,6 +12,7 @@ dependencies = [
     "datasets>=2.20.0",
     "trl>=0.9.6",
     "click>=8.1.7",
+    "deepspeed>=0.14.4",
 ]
 readme = "README.md"
 requires-python = ">= 3.8"
