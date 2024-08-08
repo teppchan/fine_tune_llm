@@ -9,6 +9,7 @@ from trl import SFTTrainer
 
 lora_config = LoraConfig(
     r=8,
+    lora_dropout=0.1,
     target_modules=[
         "q_proj",
         "o_proj",
@@ -25,12 +26,13 @@ model_id = "google/gemma-2b"
 bnb_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_quant_type="nf4",
-    bnb_4bit_compute_dtype=torch.bfloat16,
+    bnb_4bit_compute_dtype=torch.float16,
 )
 
 tokenizer = AutoTokenizer.from_pretrained(
     model_id,
     token=os.environ["HF_TOKEN"],
+    use_fast=True,
 )
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
@@ -43,7 +45,13 @@ dataset = load_dataset("text", data_files="src/dayone_prepare/out.txt")
 
 
 def formatting_func(example):
-    text = f"{example['text'][0]}<eos>"
+    t = example["text"][0].replace(
+        "\\n",
+        """
+""",
+    )
+    text = f"{t}<eos>"
+    # text = f"{example['text'][0]}<eos>"
     # print(text)
     return [text]
 
@@ -54,17 +62,20 @@ trainer = SFTTrainer(
     args=transformers.TrainingArguments(
         per_device_train_batch_size=1,
         gradient_accumulation_steps=1,
+        gradient_checkpointing=True,
         warmup_steps=2,
-        max_steps=50,
+        max_steps=700,
         learning_rate=2e-4,
         fp16=True,
         logging_steps=1,
         output_dir="outputs",
         optim="paged_adamw_8bit",
+        # optim="adamw_bnb_8bit",
     ),
     peft_config=lora_config,
     formatting_func=formatting_func,
     dataset_batch_size=1,
-    num_of_sequences=80,
+    num_of_sequences=512,
+    packing=False,
 )
 trainer.train()

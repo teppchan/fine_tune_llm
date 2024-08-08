@@ -10,7 +10,9 @@ import click
 def infe(text, max_new_tokens, model_id):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(
-        model_id, device_map={"": 0}, torch_dtype=torch.bfloat16
+        model_id,
+        device_map={"": 0},
+        torch_dtype=torch.float16
     )
     # print(model)
 
@@ -19,6 +21,7 @@ def infe(text, max_new_tokens, model_id):
 
     outputs = model.generate(**inputs, max_new_tokens=max_new_tokens)
     print(tokenizer.decode(outputs[0], skip_special_tokens=True))
+    # print(tokenizer.decode(outputs[0], skip_special_tokens=False))
 
 
 if __name__ == "__main__":
