@@ -12,6 +12,7 @@
 -e file:.
 accelerate==0.31.0
     # via peft
+    # via transformers
     # via trl
 aiohappyeyeballs==2.3.4
     # via aiohttp
@@ -36,7 +37,7 @@ datasets==2.20.0
     # via gemma2-ft
     # via trl
 deepspeed==0.14.4
-    # via gemma2-ft
+    # via transformers
 dill==0.3.8
     # via datasets
     # via multiprocess
@@ -163,10 +164,12 @@ pyyaml==6.0.1
     # via peft
     # via transformers
 regex==2024.7.24
+    # via tiktoken
     # via transformers
 requests==2.32.3
     # via datasets
     # via huggingface-hub
+    # via tiktoken
     # via transformers
 rich==13.7.1
     # via tyro
@@ -182,6 +185,8 @@ six==1.16.0
     # via python-dateutil
 sympy==1.13.1
     # via torch
+tiktoken==0.7.0
+    # via gemma2-ft
 tokenizers==0.19.1
     # via transformers
 torch==2.4.0
@@ -196,7 +201,7 @@ tqdm==4.66.5
     # via huggingface-hub
     # via peft
     # via transformers
-transformers==4.43.3
+transformers==4.44.0
     # via gemma2-ft
     # via peft
     # via trl
