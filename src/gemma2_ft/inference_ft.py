@@ -6,7 +6,7 @@ import click
 @click.command()
 @click.option("--text", type=str)
 @click.option("--max_new_tokens", type=int, default=100)
-@click.option("--model_id", type=str, default="./outputs/checkpoint-50")
+@click.option("--model_id", type=str, default="./outputs_gemma2/checkpoint-700")
 def infe(text, max_new_tokens, model_id):
     tokenizer = AutoTokenizer.from_pretrained(model_id)
     model = AutoModelForCausalLM.from_pretrained(

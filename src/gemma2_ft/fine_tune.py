@@ -29,6 +29,7 @@ bnb_config = BitsAndBytesConfig(
     bnb_4bit_compute_dtype=torch.float16,
 )
 
+
 tokenizer = AutoTokenizer.from_pretrained(
     model_id,
     token=os.environ["HF_TOKEN"],
@@ -37,7 +38,7 @@ tokenizer = AutoTokenizer.from_pretrained(
 model = AutoModelForCausalLM.from_pretrained(
     model_id,
     quantization_config=bnb_config,
-    device_map={"": 0},
+    device_map="auto",
     token=os.environ["HF_TOKEN"],
 )
 
@@ -68,7 +69,7 @@ trainer = SFTTrainer(
         learning_rate=2e-4,
         fp16=True,
         logging_steps=1,
-        output_dir="outputs",
+        output_dir="outputs_gemma2",
         optim="paged_adamw_8bit",
         # optim="adamw_bnb_8bit",
     ),
