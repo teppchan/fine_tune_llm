@@ -1,6 +1,6 @@
 # gemma2-ft
 
-`DayOne` で書き溜めた日記を使ってGemma 2BをFine-Tuningする。
+`DayOne` で書き溜めた日記をデータベースにして、小型LLMをFine-Tuningしてみる
 
 ## Prepare the environment
 
@@ -21,7 +21,7 @@ src/dayone_prepare/conv.sh Journal.json
 
 You will obtain `out.txt`.
 
-## Fine-tune
+## Fine-tune with `Gemma2 2B`
 
 ```shell
 rye run python src/gemma2_ft/fine_tune.py
@@ -34,7 +34,27 @@ You can generate texts with the original model.
 rye run python src/gemma2_ft/inference.py --text "こんにちは。お元気ですか？"
 ```
 
+You can generate texts with the fine-tuned model.
 ```shell
 rye run python src/gemma2_ft/inference_ft.py --text "こんにちは。お元気ですか？"
 ```
+
+## Fine-tune with `Japanese Stable LM 2 1.6B`
+
+```shell
+rye run python src/stablelm_ft/fine_tune.py
+```
+
+## Generate texts with the fine-tuned model
+
+You can generate texts with the original model.
+```shell
+rye run python src/stablelm_ft/inference.py --text "こんにちは。お元気ですか？"
+```
+
+You can generate texts with the fine-tuned model.
+```shell
+rye run python src/stablelm_ft/inference_ft.py --text "こんにちは。お元気ですか？"
+```
+
 
